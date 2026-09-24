@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102a43"><title>AJ's Jomtien Guide</title>
+<style>
+:root{--navy:#102a43;--blue:#1769aa;--bg:#f4f7fa;--card:#fff;--text:#18212b;--muted:#607080;--line:#dbe4ec}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#102a43,#1769aa);color:white;padding:28px 18px 22px}
+.wrap{max-width:860px;margin:auto}.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+h1{font-size:30px;margin:5px 0 4px}.sub{opacity:.9;margin:0 0 18px}
+.hero{background:#ffffff18;border:1px solid #ffffff38;border-radius:16px;padding:14px}
+.hero strong{display:block;font-size:17px}.hero small{display:block;margin-top:4px;opacity:.9}
+.hero-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{display:inline-block;border:0;border-radius:10px;padding:10px 13px;text-decoration:none;font-weight:700;font-size:14px;background:#fff;color:var(--navy)}
+main{padding:16px}.search{position:sticky;top:0;background:var(--bg);padding:8px 0 10px;z-index:5}
+input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:white}
+.chips{display:flex;gap:8px;overflow:auto;padding:8px 0 2px;scrollbar-width:none}.chip{white-space:nowrap;border:1px solid var(--line);background:white;padding:8px 11px;border-radius:999px;font-size:13px;font-weight:650;cursor:pointer}
+.chip.active{background:var(--navy);color:white;border-color:var(--navy)}
+section{margin:18px 0 26px}h2{font-size:20px;margin:0 0 10px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 2px 8px #102a4308}
+.type{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);font-weight:800}.name{font-size:18px;font-weight:800;margin:3px 0 8px}
+.meta{font-size:14px;color:var(--muted);line-height:1.55}.note{font-size:14px;line-height:1.45;margin-top:7px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.actions a{background:#eef5fb;color:#0d5f9d;text-decoration:none;font-weight:750;font-size:13px;padding:9px 11px;border-radius:9px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 12px 35px}.hidden{display:none}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="eyebrow">Personal Travel Guide</div><h1>AJ's Jomtien Guide</h1><p class="sub">Pretty Villa · Jomtien · 4–14 October 2026</p>
+<div class="hero"><strong>Pretty Villa</strong><small>12.899306, 100.872611</small>
+<div class="hero-actions"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=12.899306,100.872611">Open Villa Map</a><a class="btn" href="tel:+6638756640">View Talay Villas</a></div></div>
+</div></header>
+<main class="wrap">
+<div class="search"><input id="q" placeholder="Search e.g. breakfast, massage, 24 hours..." autocomplete="off"><div class="chips" id="chips"></div></div>
+<div id="content"></div>
+</main>
+<footer>Distances and opening hours are approximate and can change. Tap Maps to check live routing and current business information.</footer>
+<script>
+const groups=[
+["Shopping",[
+["Convenience Store","7-Eleven - Jomtien Second Road / Rompho","Walk 6 min · Car 2 min · Moped 1–2 min","24 hours","Closest everyday shop for drinks, snacks, toiletries and basic groceries.","7-Eleven+Jomtien+Second+Road+Rompho+Pattaya"],
+["Market / Food Shopping","Rompho Market","Walk 6–9 min · Car 2–3 min · Moped 2 min","Approx. 06:00–22:00","Fruit, vegetables, fresh food and prepared Thai food.","Rompho+Market+Jomtien+Pattaya"],
+["Supermarket / Grocery","Tasty Jomtien Grocery & Cafe","Walk 10–12 min · Car 4 min · Moped 3 min","09:00–21:00","Local grocery option.","Tasty+Jomtien+Grocery+Cafe"],
+["Supermarket","Tops Daily Skypark Lucean Jomtien","Walk 12–15 min · Car 5 min · Moped 3 min","24 hours","Convenient for essentials.","Tops+Daily+Skypark+Lucean+Jomtien"],
+["Supermarket","Food Mart","Walk 18–22 min · Car 6 min · Moped 4 min","06:00–00:00","Better option for a larger grocery shop.","Food+Mart+316+Thappraya+Road+Pattaya"]]],
+["Food",[
+["Restaurant","View Talay Villas Pool Bar & Restaurant","Walk 1–2 min","Check locally","Closest food option, inside or adjacent to the development.","View+Talay+Villas+Pool+Bar+Restaurant+Jomtien"],
+["Restaurant / Cafe","Sunset Road Restaurant Cafe","Walk 7–10 min · Car 3 min · Moped 2 min","Approx. 09:30–22:30","Close to the villa.","Sunset+Road+Restaurant+Cafe+Jomtien"],
+["Italian / Pizza","Restaurant Pizzeria Oregano","Walk 7–8 min · Car 3 min · Moped 2 min","Check Maps","Nearby Italian and pizza option.","Restaurant+Pizzeria+Oregano+Jomtien+Pattaya"],
+["Restaurant","Rom Mai Chai Kaew Restaurant","Walk 7–8 min · Car 3 min · Moped 2 min","Check Maps","Nearby restaurant.","Rom+Mai+Chai+Kaew+Restaurant+Jomtien"],
+["Thai / International","Surf Kitchen Restaurant","Walk 10–12 min · Car 4 min · Moped 3 min","08:00–22:00","Very established restaurant with a large number of reviews.","Surf+Kitchen+Restaurant+Jomtien"],
+["Breakfast / Restaurant","Cheap Charlie's Jomtien","Walk 12–15 min · Car 4–5 min · Moped 3 min","Approx. 07:00–23:00","Inexpensive and useful for breakfast.","Cheap+Charlies+Jomtien+Pattaya"],
+["Late Night Food","Jomtien Mr. Aroidee Restaurant","Walk 12–15 min · Car 5 min · Moped 3 min","24 hours","Handy late-night option.","Jomtien+Mr+Aroidee+Restaurant+Pattaya"],
+["Cafe / Breakfast","SOi 5ive Jomtien Coffee","Walk 12–15 min · Car 5 min · Moped 3 min","Approx. 08:00–17:00","Coffee and breakfast.","SOi+5ive+Jomtien+Coffee"],
+["Cafe / Breakfast","Branch Coffee 2","Walk 15–20 min · Car 5 min · Moped 3–4 min","Approx. 07:00–21:00","Well-reviewed cafe and breakfast option.","Branch+Coffee+2+Jomtien+Pattaya"],
+["Seafood","Seafood Buffet at Jomtien Palm Beach Hotel","Walk 15–20 min · Car 5 min · Moped 3–4 min","Approx. 18:00–22:00","Evening seafood buffet.","Seafood+Buffet+Jomtien+Palm+Beach+Hotel"],
+["Seafood","Pupen Seafood","Car 15–20 min · Moped 12–15 min","Approx. 10:00–22:00","Farther away but one of Jomtien's established seafood restaurants.","Pupen+Seafood+Jomtien+Pattaya"]]],
+["Bars",[
+["Bar","View Talay Villas Pool Bar","Walk 1–2 min","Check locally","Inside the development; easiest place for a nearby drink.","View+Talay+Villas+Pool+Bar+Jomtien"],
+["Bar Area","Rompho Bar Complex","Walk 6–9 min · Car 3 min · Moped 2 min","Evening / late","Cluster of small open-air bars.","Rompho+Bar+Complex+Jomtien+Pattaya"],
+["Girl Bar","Devils Bar","Walk 7–10 min · Car 3 min · Moped 2 min","Approx. 16:00–02:00","Girl bar rather than a conventional pub.","Devils+Bar+Rompho+Jomtien+Pattaya"],
+["Bar","Derina Bar","Walk 10–13 min · Car 4 min · Moped 3 min","Approx. 10:00–02:00","Conventional bar option.","Derina+Bar+Jomtien+Pattaya"],
+["Rooftop Bar","ZAMA Skybar","Car 5–7 min · Moped 4–5 min","Approx. 17:00–03:00","Rooftop and night-out option.","ZAMA+Skybar+Jomtien+Pattaya"]]],
+["Massage",[
+["Massage / Spa","Sukho Ayothaya Pattaya Massage & Spa","Walk approx. 6 min · Car 2–3 min · Moped 2 min","Check Maps","Conventional-looking massage and spa establishment.","Sukho+Ayothaya+Pattaya+Massage+Spa"],
+["Massage / Spa","Body and Soul Massage - Jomtien Soi 7","Walk 8–11 min · Car 4 min · Moped 2–3 min","10:30–23:00","Conventional massage/spa establishment.","Body+and+Soul+Massage+Jomtien+Soi+7"],
+["Thai Massage","VAREEN Massage","Walk 9–12 min · Car 4 min · Moped 3 min","10:00–00:00","Strong rating/review combination; Thai and foot massage.","VAREEN+Massage+Jomtien+Pattaya"],
+["Thai Massage","Soi 5 Massage Pattaya Jomtien","Walk 12–15 min · Car 4–5 min · Moped 3 min","10:00–22:00","Conventional Thai massage establishment.","Soi+5+Massage+Pattaya+Jomtien"]]],
+["Dry Cleaning",[
+["Laundry / Dry Cleaning","View Talay Villas","On site","Ask reception","Accommodation information advertises laundry/ironing/dry-cleaning. Confirm availability for a privately rented villa.","View+Talay+Villas+Pattaya","+6638756640"],
+["Dry Cleaning / Full Service","Mr Jeff Pattaya Laundry","Car 8–10 min · Moped 6–8 min","Approx. 08:00–18:00 Mon–Sat","Staff-operated service; not self-service.","Mr+Jeff+Pattaya+Laundry+Soi+Jomtien+13+Pattaya","+66616805050"],
+["Full-Service Laundry","N M Laundry Service","Car 8–10 min · Moped 6–8 min","Approx. 08:00–20:00","Staff-operated laundry service; not self-service.","N+M+Laundry+Service+Pattaya+Soi+5","+66834084868"],
+["Dry Cleaning","Lumos Clean","Car 12–15 min · Moped 10 min","Approx. 08:30–19:00","Specifically listed as a dry cleaner with strong reviews.","Lumos+Clean+Pattaya","+66840040908"],
+["Collection / Delivery Laundry","9Laundry Pattaya","Car 15–20 min","Approx. 08:30–21:00 Mon–Sat","Wash, dry and iron; collection/delivery available.","9Laundry+Pattaya","+66827157589"]]],
+["Pharmacy",[
+["Pharmacy","DR.JEN Pharmacy - Jomtien Branch","Walk 8–11 min · Car 3–4 min · Moped 2 min","08:00–00:00","Strong nearby option with useful late opening.","DR+JEN+Pharmacy+Jomtien+Branch"],
+["Pharmacy","Grand Pharmacy","Walk 10–15 min · Car 4 min · Moped 3 min","08:00–00:00","Backup pharmacy option.","Grand+Pharmacy+Jomtien+Pattaya"]]],
+["Medical",[
+["Medical Clinic","JMC Clinic - Jomtien Medical Clinic","Walk 15–20 min · Car 5 min · Moped 3–4 min","09:00–21:00","Strong reviews and convenient opening hours.","JMC+Clinic+Jomtien+Medical+Clinic"],
+["Medical Clinic","Chanya Medical Clinic Jomtien","Walk approx. 20 min · Car 5–6 min · Moped 4 min","Approx. 09:00–18:00","Backup medical option.","Chanya+Medical+Clinic+Jomtien"]]],
+["Cash",[
+["ATM","Krungsri ATM - Jomtien Second Road area","Walk 6–8 min · Car 2–3 min · Moped 2 min","24 hours","Convenient ATM near the Rompho / 7-Eleven area.","Krungsri+ATM+Jomtien+Second+Road+Pattaya"]]],
+["Beach",[
+["Beach","Jomtien Beach","Walk approx. 8–10 min · Car 3 min · Moped 2 min","Always accessible","Your local beach.","Jomtien+Beach+Pattaya"]]]
+];
+const content=document.getElementById("content"), chips=document.getElementById("chips"), q=document.getElementById("q");
+let active="All";
+function render(){
+ const term=q.value.toLowerCase().trim(); content.innerHTML="";
+ groups.forEach(([cat,items])=>{
+  if(active!=="All"&&active!==cat)return;
+  const matches=items.filter(x=>(cat+" "+x.join(" ")).toLowerCase().includes(term));
+  if(!matches.length)return;
+  const s=document.createElement("section"); s.innerHTML="<h2>"+cat+"</h2>";
+  matches.forEach(x=>{
+   const c=document.createElement("div"); c.className="card";
+   const maps="https://www.google.com/maps/search/?api=1&query="+x[5];
+   c.innerHTML='<div class="type">'+x[0]+'</div><div class="name">'+x[1]+'</div><div class="meta">'+x[2]+'<br><b>Hours:</b> '+x[3]+'</div><div class="note">'+x[4]+'</div><div class="actions"><a target="_blank" href="'+maps+'">Open in Maps</a>'+(x[6]?'<a href="tel:'+x[6]+'">Call</a>':'')+'</div>';
+   s.appendChild(c);
+  }); content.appendChild(s);
+ });
+}
+["All",...groups.map(g=>g[0])].forEach(cat=>{const b=document.createElement("button");b.className="chip"+(cat==="All"?" active":"");b.textContent=cat;b.onclick=()=>{active=cat;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()};chips.appendChild(b)});
+q.addEventListener("input",render); render();
+</script>
+</body></html>
