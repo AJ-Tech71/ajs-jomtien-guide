@@ -107,13 +107,13 @@ function render(){
 q.addEventListener("input",render); render();
 function updateClocks(){
  const now=new Date();
- const timeOpts={hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false};
+ const timeOpts={hour:"2-digit",minute:"2-digit",hour12:false};
  const dateOpts={weekday:"short",day:"numeric",month:"short"};
  document.getElementById("thaiTime").textContent=new Intl.DateTimeFormat("en-GB",{...timeOpts,timeZone:"Asia/Bangkok"}).format(now);
  document.getElementById("ukTime").textContent=new Intl.DateTimeFormat("en-GB",{...timeOpts,timeZone:"Europe/London"}).format(now);
  document.getElementById("thaiDate").textContent=new Intl.DateTimeFormat("en-GB",{...dateOpts,timeZone:"Asia/Bangkok"}).format(now);
  document.getElementById("ukDate").textContent=new Intl.DateTimeFormat("en-GB",{...dateOpts,timeZone:"Europe/London"}).format(now);
 }
-updateClocks(); setInterval(updateClocks,1000);
+updateClocks(); setInterval(updateClocks,60000);
 </script>
 </body></html>
