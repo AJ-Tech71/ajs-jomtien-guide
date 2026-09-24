@@ -32,6 +32,13 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 12px 35p
 <div style="background:#ffffff18;border-radius:12px;padding:12px"><small style="margin:0">UK</small><strong id="ukTime" style="font-size:25px">--:--</strong><small id="ukDate"></small></div>
 </div><strong>Pretty Villa</strong><small>12.899306, 100.872611</small>
 <div class="hero-actions"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=12.899306,100.872611">Open Villa Map</a><a class="btn" href="tel:+6638756640">View Talay Villas</a><button class="btn" onclick="toggleAround()" style="cursor:pointer">📍 Around Me</button></div>
+<div style="margin-top:12px;background:#fff;color:#18212b;border-radius:14px;padding:14px">
+<strong style="font-size:18px">💷 Quick Baht Converter</strong><small style="color:#607080">Offline calculator · working rate ฿44 = £1</small>
+<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end;margin-top:10px">
+<label style="font-size:12px;color:#607080">Thai baht (฿)<input id="thb" inputmode="decimal" placeholder="1000" style="margin-top:4px"></label>
+<span style="padding-bottom:12px">⇄</span>
+<label style="font-size:12px;color:#607080">Pounds (£)<input id="gbp" inputmode="decimal" placeholder="22.73" style="margin-top:4px"></label>
+</div><small style="color:#607080">For quick mental budgeting, not a live FX quote.</small></div>
 <div id="around" style="display:none;margin-top:12px;background:#fff;color:#18212b;border-radius:14px;padding:14px">
 <strong style="font-size:18px">📍 Around Me</strong><small style="color:#607080">Opens Google Maps using your current location. Your location isn't stored by this guide.</small>
 <div class="hero-actions" style="margin-top:10px">
@@ -110,6 +117,10 @@ function render(){
 }
 ["All",...groups.map(g=>g[0])].forEach(cat=>{const b=document.createElement("button");b.className="chip"+(cat==="All"?" active":"");b.textContent=cat;b.onclick=()=>{active=cat;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()};chips.appendChild(b)});
 q.addEventListener("input",render); render();
+const RATE=44;
+const thb=document.getElementById("thb"),gbp=document.getElementById("gbp");
+thb.addEventListener("input",()=>{const v=parseFloat(thb.value);gbp.value=Number.isFinite(v)?(v/RATE).toFixed(2):""});
+gbp.addEventListener("input",()=>{const v=parseFloat(gbp.value);thb.value=Number.isFinite(v)?Math.round(v*RATE):""});
 function toggleAround(){const a=document.getElementById("around");a.style.display=a.style.display==="none"?"block":"none"}
 function nearby(type){
  const m=document.getElementById("locmsg"); m.textContent="Finding your location…";
