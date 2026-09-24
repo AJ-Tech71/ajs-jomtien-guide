@@ -95,6 +95,27 @@ const groups=[
 ["Medical Clinic","Chanya Medical Clinic Jomtien","Walk approx. 20 min · Car 5–6 min · Moped 4 min","Approx. 09:00–18:00","Backup medical option.","Chanya+Medical+Clinic+Jomtien"]]],
 ["Cash",[
 ["ATM","Krungsri ATM - Jomtien Second Road area","Walk 6–8 min · Car 2–3 min · Moped 2 min","24 hours","Convenient ATM near the Rompho / 7-Eleven area.","Krungsri+ATM+Jomtien+Second+Road+Pattaya"]]],
+["Useful Thai",[
+["Basic","Hello","sà-wàt-dee khráp","สวัสดีครับ","Polite male greeting.",""],
+["Basic","Thank you","khòp khun khráp","ขอบคุณครับ","Polite thank you.",""],
+["Basic","Yes / No","châi / mâi châi","ใช่ / ไม่ใช่","Yes / No.",""],
+["Basic","Excuse me / sorry","khŏr thôht khráp","ขอโทษครับ","Useful for getting attention or apologising.",""],
+["Food","Not spicy, please","mâi pèt khráp","ไม่เผ็ดครับ","Ask for food without chilli heat.",""],
+["Food","A little spicy","pèt nít nòi khráp","เผ็ดนิดหน่อยครับ","A little spicy.",""],
+["Food","Delicious","à-ròi mâak khráp","อร่อยมากครับ","Very delicious.",""],
+["Food","The bill, please","chék bin khráp","เช็คบิลครับ","Ask for the bill.",""],
+["Shopping","How much?","thâo-rài khráp","เท่าไหร่ครับ","Ask the price.",""],
+["Transport","Please take me here","pai thîi nîi khráp","ไปที่นี่ครับ","Show your destination on the phone while saying this.",""],
+["Transport","Stop here, please","jòt thîi nîi khráp","จอดที่นี่ครับ","Useful in a taxi or baht bus.",""],
+["Massage","Thai massage, please","nûat thai khráp","นวดไทยครับ","Request Thai massage.",""],
+["Help","I don't understand","mâi khâo-jai khráp","ไม่เข้าใจครับ","Useful if conversation gets difficult.",""],
+["Help","Do you speak English?","phûut ang-grìt dâi mái khráp","พูดอังกฤษได้ไหมครับ","Ask if someone speaks English.",""]]],
+["Emergency",[
+["Tourist Police","Tourist Police","English-language visitor assistance","24 hours","Official Tourist Police hotline: 1155.","","1155"],
+["Emergency Medical","Medical Emergency","Thailand emergency medical service","24 hours","Call 1669 for an emergency ambulance/medical response.","","1669"],
+["Police","Royal Thai Police","Emergency police","24 hours","Police emergency number: 191.","","191"],
+["Fire / Rescue","Fire / Accidents / Rescue","Emergency service","24 hours","Fire, accident and rescue number: 199.","","199"],
+["UK Help","British Embassy Bangkok","Consular support","24/7 support available","For British nationals needing consular help. Embassy public access is by appointment.","British+Embassy+Bangkok","+6623058333"]]],
 ["Beach",[
 ["Beach","Jomtien Beach","Walk approx. 8–10 min · Car 3 min · Moped 2 min","Always accessible","Your local beach.","Jomtien+Beach+Pattaya"]]]
 ];
@@ -109,8 +130,8 @@ function render(){
   const s=document.createElement("section"); s.innerHTML="<h2>"+cat+"</h2>";
   matches.forEach(x=>{
    const c=document.createElement("div"); c.className="card";
-   const maps="https://www.google.com/maps/search/?api=1&query="+x[5];
-   c.innerHTML='<div class="type">'+x[0]+'</div><div class="name">'+x[1]+'</div><div class="meta">'+x[2]+'<br><b>Hours:</b> '+x[3]+'</div><div class="note">'+x[4]+'</div><div class="actions"><a target="_blank" href="'+maps+'">Open in Maps</a>'+(x[6]?'<a href="tel:'+x[6]+'">Call</a>':'')+'</div>';
+   const maps=x[5]?"https://www.google.com/maps/search/?api=1&query="+x[5]:"";
+   if(cat==="Useful Thai"){c.innerHTML='<div class="type">'+x[0]+'</div><div class="name">'+x[1]+'</div><div style="font-size:25px;font-weight:800;margin:5px 0">'+x[3]+'</div><div style="font-size:18px;color:#0d5f9d;font-weight:750">'+x[2]+'</div><div class="note">'+x[4]+'</div><div class="actions"><button class="chip" onclick="showThai(\''+x[3].replace(/'/g,"\\'")+'\',\''+x[1].replace(/'/g,"\\'")+'\')">📱 Show Large</button></div>'}else{c.innerHTML='<div class="type">'+x[0]+'</div><div class="name">'+x[1]+'</div><div class="meta">'+x[2]+'<br><b>Hours:</b> '+x[3]+'</div><div class="note">'+x[4]+'</div><div class="actions">'+(maps?'<a target="_blank" href="'+maps+'">Open in Maps</a>':'')+(x[6]?'<a href="tel:'+x[6]+'">Call</a>':'')+'</div>'};
    s.appendChild(c);
   }); content.appendChild(s);
  });
@@ -121,6 +142,12 @@ const RATE=44;
 const thb=document.getElementById("thb"),gbp=document.getElementById("gbp");
 thb.addEventListener("input",()=>{const v=parseFloat(thb.value);gbp.value=Number.isFinite(v)?(v/RATE).toFixed(2):""});
 gbp.addEventListener("input",()=>{const v=parseFloat(gbp.value);thb.value=Number.isFinite(v)?Math.round(v*RATE):""});
+function showThai(thai,english){
+ const old=document.getElementById("thaiOverlay"); if(old)old.remove();
+ const d=document.createElement("div");d.id="thaiOverlay";d.style.cssText="position:fixed;inset:0;background:white;z-index:99;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:25px;color:#102a43";
+ d.innerHTML='<div style="font-size:14px;color:#607080;margin-bottom:20px">'+english+'</div><div style="font-size:48px;font-weight:800;line-height:1.3">'+thai+'</div><button class="chip" style="margin-top:30px;font-size:16px;padding:12px 22px" onclick="this.parentElement.remove()">Close</button>';
+ document.body.appendChild(d);
+}
 function toggleAround(){const a=document.getElementById("around");a.style.display=a.style.display==="none"?"block":"none"}
 function nearby(type){
  const m=document.getElementById("locmsg"); m.textContent="Finding your location…";
