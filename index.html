@@ -31,7 +31,12 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:18px 12px 35p
 <div style="background:#ffffff18;border-radius:12px;padding:12px"><small style="margin:0">JOMTIEN</small><strong id="thaiTime" style="font-size:25px">--:--</strong><small id="thaiDate"></small></div>
 <div style="background:#ffffff18;border-radius:12px;padding:12px"><small style="margin:0">UK</small><strong id="ukTime" style="font-size:25px">--:--</strong><small id="ukDate"></small></div>
 </div><strong>Pretty Villa</strong><small>12.899306, 100.872611</small>
-<div class="hero-actions"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=12.899306,100.872611">Open Villa Map</a><a class="btn" href="tel:+6638756640">View Talay Villas</a></div></div>
+<div class="hero-actions"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=12.899306,100.872611">Open Villa Map</a><a class="btn" href="tel:+6638756640">View Talay Villas</a><button class="btn" onclick="toggleAround()" style="cursor:pointer">📍 Around Me</button></div>
+<div id="around" style="display:none;margin-top:12px;background:#fff;color:#18212b;border-radius:14px;padding:14px">
+<strong style="font-size:18px">📍 Around Me</strong><small style="color:#607080">Opens Google Maps using your current location. Your location isn't stored by this guide.</small>
+<div class="hero-actions" style="margin-top:10px">
+<button class="chip" onclick="nearby('coffee')">☕ Coffee</button><button class="chip" onclick="nearby('breakfast')">🍳 Breakfast</button><button class="chip" onclick="nearby('restaurants')">🍜 Food</button><button class="chip" onclick="nearby('bars')">🍺 Bars</button><button class="chip" onclick="nearby('massage')">💆 Massage</button><button class="chip" onclick="nearby('pharmacy')">💊 Pharmacy</button><button class="chip" onclick="nearby('ATM')">🏧 ATM</button><button class="chip" onclick="nearby('supermarket')">🛒 Shopping</button><button class="chip" onclick="nearby('medical clinic')">🏥 Medical</button><button class="chip" onclick="nearby('beach')">🏖 Beach</button>
+</div><small id="locmsg" style="color:#607080;margin-top:8px"></small></div></div>
 </div></header>
 <main class="wrap">
 <div class="search"><input id="q" placeholder="Search e.g. breakfast, massage, 24 hours..." autocomplete="off"><div class="chips" id="chips"></div></div>
@@ -105,6 +110,16 @@ function render(){
 }
 ["All",...groups.map(g=>g[0])].forEach(cat=>{const b=document.createElement("button");b.className="chip"+(cat==="All"?" active":"");b.textContent=cat;b.onclick=()=>{active=cat;document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()};chips.appendChild(b)});
 q.addEventListener("input",render); render();
+function toggleAround(){const a=document.getElementById("around");a.style.display=a.style.display==="none"?"block":"none"}
+function nearby(type){
+ const m=document.getElementById("locmsg"); m.textContent="Finding your location…";
+ if(!navigator.geolocation){m.textContent="Location isn't available in this browser.";return}
+ navigator.geolocation.getCurrentPosition(p=>{
+  const lat=p.coords.latitude,lon=p.coords.longitude;
+  m.textContent="Location found — opening nearby "+type+".";
+  window.open("https://www.google.com/maps/search/"+encodeURIComponent(type)+"/@"+lat+","+lon+",15z","_blank");
+ },()=>{m.textContent="Please allow location access to use Around Me."},{enableHighAccuracy:false,timeout:8000,maximumAge:300000});
+}
 function updateClocks(){
  const now=new Date();
  const timeOpts={hour:"2-digit",minute:"2-digit",hour12:false};
